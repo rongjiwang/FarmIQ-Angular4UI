@@ -1,0 +1,29 @@
+
+.header {
+  clear: left;
+  background: rgb(49, 89, 155);
+  margin: 0;
+  height: 15%;
+  width: 100%;
+}
+
+#logo {
+  height: 100%;
+}
+
+#rectangle {
+  width: 15%;
+  height: 70px;
+  background: rgb(57, 86, 135);
+  float: left;
+
+}
+
+#triangle-right {
+  margin-left: 15%;
+  width: 0%;
+  height: 0;
+  border-top: 35px solid transparent;
+  border-left: 70px solid rgb(57, 86, 135);
+  border-bottom: 35px solid transparent;
+}

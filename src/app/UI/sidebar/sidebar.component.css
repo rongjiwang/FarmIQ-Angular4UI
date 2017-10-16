@@ -1,0 +1,55 @@
+.left {
+  color: white;
+  float: left;
+  background: rgb(49,89,155);
+  padding: 0;
+  margin: 0;
+  width: 15%;
+  min-height: 800px;
+}
+#search {
+
+}
+
+#key {
+  margin-left: 24%;
+  color: black;
+  width: 50%;
+  background-color: ghostwhite;
+  border: outset grey;
+}
+
+#search {
+  margin-left: 4%;
+  color: black;
+  width: 90%;
+  background-color: ghostwhite;
+  border: outset grey;
+}
+
+#colourCell1, #colourCell2, #colourCell3, #colourCell4, #colourCell5 {
+  width: 10px;
+  height: 10px;
+  border: solid 1px black;
+  background-color: yellow;
+}
+
+table {
+  font-family: arial, sans-serif;
+  demo-collapse: collapse;
+  width: 100%;
+
+}
+
+td, th {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  width: 40%;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
