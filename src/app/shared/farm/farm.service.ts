@@ -9,6 +9,8 @@ export class FarmService {
   constructor(private http: Http) { }
 
   getAll(): Observable<any> {
+    // external use ip
+    // http://192.168.1.65:8080/farms
     return this.http.get('http://localhost:8080/farms').map(
       (response: Response) => response.json()
     );
