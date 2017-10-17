@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@turf/intersect": "^4.7.4",
     "@turf/turf": "^4.7.3",
     "angular2-openlayers": "^0.6.8",
     "core-js": "^2.4.1",
