@@ -3,7 +3,6 @@ import {ColorScale} from '../shared/colourScale/ColourScale';
 import {DummyData} from './dummyData/dummyData';
 import {MyService} from '../shared/appState/appState.service';
 import {FarmService} from "../shared/farm/farm.service";
-import {reject} from "q";
 
 // This is necessary to access ol3!
 declare var ol: any;
@@ -91,8 +90,6 @@ export class PolygonlistComponent implements OnInit {
       });
       let obj = JSON.parse(polygons[n].geometry);
       let polygon = {"type": "Polygon", "coordinates": obj.coordinates[0]};
-      //console.log("polygon:");
-      //console.log(polygon);
 
       let geometry = new ol.format.GeoJSON().readGeometry(polygon, {'featureProjection': this.mapProjection});
       let feature = new ol.Feature({'geometry': geometry});
@@ -156,60 +153,10 @@ export class PolygonlistComponent implements OnInit {
 
 // After view init the map target can be set!
   public ngAfterView() {
-    console.log('7');
     this.map.setTarget(this.mapElement.nativeElement.id);
-    console.log('8');
 
   }
 
-  /*  public loadIntersects(list, level, polygonslice) {
-   if (list.length < 2) {
-   return;
-   }
-   while (list.length > 0) {
-   let objectA = list.pop();
-   let polygonACoordinates = JSON.parse(objectA.geometry);
-   let ColourValueA = JSON.parse(objectA.NitrogenValue);
-
-   let polygonA = {"type": "Polygon", "coordinates": polygonACoordinates.coordinates[0]};
-   if (polygonslice != null && list.length != 0) {
-   if (turf.intersect(polygonslice, polygonA) != null) {
-   let colourValueB = ColourValueA + level;
-   let x = turf.intersect(polygonslice, polygonA).geometry;
-   }
-   }
-   for (let i = 0; i < list.length; i++) {
-   //console.log(list[i]);
-   let objB = JSON.parse(list[i].geometry);
-   let polygonB = {"type": "Polygon", "coordinates": objB.coordinates[0]};
-   if (polygonslice == null) {
-   if (turf.intersect(polygonA, polygonB) != null) {
-   let colourValueB = list[i].averageFertiliser + ColourValueA;
-   let x = turf.intersect(polygonA, polygonB).geometry;
-   let area = turf.area(x);
-   this.turfList.push({"polygon": x, "colour": colourValueB, "level": level});
-   //console.log("length of list is" + list.length);
-   let clone = JSON.parse(JSON.stringify(list));
-   this.loadIntersects(clone, colourValueB, x);
-   //console.log("length of list after recursion is" + list.length);
-   }
-   }
-   else {
-   if (turf.intersect(polygonslice, polygonA) != null) {
-   // intersection found, so we draw it and then call function again
-   let colourValueB = ColourValueA + level;
-   //this line removes the first element from the list for efficiency, e.g. if A and B do not intersect but A intersects with C, then we remove A from                   list since we already know that it intersects with C, in the next recursve iteration only B and C should be checked
-   // console.log("intersect has intersect with other item in list");
-   let x = turf.intersect(polygonslice, polygonA).geometry;
-   this.turfList.push({"polygon": x, "colour": colourValueB, "level": level});
-   let clone = JSON.parse(JSON.stringify(list));
-   this.loadIntersects(clone, colourValueB, x);
-   }
-   }
-   }
-   }
-   ;
-   };*/
 
   public drawShape(x, level) {
 
@@ -217,9 +164,7 @@ export class PolygonlistComponent implements OnInit {
     //let colour = ColorScale.getFarmStyle();
     if (x != null) {
 
-      //console.log("drawing shape at level" + level);
       let dummypolygon3 = x;
-      //console.log(dummypolygon3);
 
       let dummyGeometry3 = new ol.format.GeoJSON().readGeometry(dummypolygon3, {'featureProjection': this.mapProjection});
       let dummyFeature3 = new ol.Feature({
@@ -233,7 +178,6 @@ export class PolygonlistComponent implements OnInit {
         }
       })
       dummyLayer3.getSource().addFeature(dummyFeature3);
-      //console.log(dummyLayer3);
 
       this.map.addLayer(dummyLayer3);
     }
@@ -241,17 +185,13 @@ export class PolygonlistComponent implements OnInit {
   }
 
   public sort() {
-    //console.log("before");
-    //console.log(this.turfList);
+
     this.turfList.sort(function (a, b) {
       return a.level - b.level;
     })
 
-    //console.log("after");
-    //console.log(this.turfList);
 
     for (var o = 0; o < this.turfList.length; o++) {
-      // console.log("haps");
       this.drawShape(this.turfList[o].polygon, this.turfList[o].colour);
     }
 
@@ -263,10 +203,8 @@ export class PolygonlistComponent implements OnInit {
       return;
     }
     while (list.length > 1) {
-      console.log('11');
       let objectA = list.pop();
-      console.log('12');
-      console.log(objectA);
+
       let polygonACoordinates;
       if (JSON.parse(objectA.geometry).type === "MultiPolygon") {
         polygonACoordinates = JSON.parse(objectA.geometry).coordinates[0];
@@ -274,31 +212,20 @@ export class PolygonlistComponent implements OnInit {
       else {
         polygonACoordinates = JSON.parse(objectA.geometry).coordinates;
       }
-      console.log(JSON.parse(objectA.geometry).type);
-      console.log(polygonACoordinates);
-      console.log('13');
+
 
       let ColourValueA = JSON.parse(objectA.NitrogenValue);
-      console.log('14');
 
       let polygonA = {"type": "Polygon", "coordinates": polygonACoordinates};
-      console.log(polygonA);
-
-      console.log('15');
 
       if (polygonslice != null && list.length != 0) {
         if (turf.intersect(polygonslice, polygonA) != null) {
-          console.log('16');
 
           let colourValueB = ColourValueA + level;
           let x = turf.intersect(polygonslice, polygonA).geometry;
         }
       }
       for (let i = index; i < list.length; i++) {
-        console.log('17');
-        console.log(JSON.parse(list[0].geometry).coordinates);
-        //let objB = JSON.parse(list[i].geometry.coordinates[0]);
-        console.log(JSON.parse(list[0].geometry).type);
 
         let polygonBCoordinates;
 
@@ -308,53 +235,36 @@ export class PolygonlistComponent implements OnInit {
         else {
           polygonBCoordinates = JSON.parse(list[i].geometry).coordinates;
         }
-        console.log('20');
 
         let polygonB = {"type": "Polygon", "coordinates": polygonBCoordinates};
-        console.log(polygonB);
-        console.log('21');
 
         if (polygonslice == null) {
-          console.log('28');
-          console.log(polygonA);
-          console.log(polygonB);
           var aaa = turf.intersect(polygonA, polygonB);
-          console.log(aaa);
-          console.log('18');
+
 
           if (turf.intersect(polygonA, polygonB) != null) {
-            console.log('22');
 
             let colourValueB = list[i].NitrogenValue + ColourValueA;
-            console.log('23');
 
             let leveler = level + 1;
             let x = turf.intersect(polygonA, polygonB).geometry;
-            console.log('24' + x);
 
-            //let area = turf.area(x);
-            console.log('25');
 
             this.turfList.push({"polygon": x, "colour": colourValueB, "level": level});
-            console.log('26');
 
-            //console.log("length of list is" + list.length);
             let clone = JSON.parse(JSON.stringify(list));
-            console.log('27');
 
             this.loadIntersects(clone, colourValueB, leveler, x, i);
-            //console.log("length of list after recursion is" + list.length);
           }
         }
         else {
-          console.log('19');
 
           if (turf.intersect(polygonslice, polygonA) != null) {
             // intersection found, so we draw it and then call function again
             let colourValueB = ColourValueA + colorLevel;
             let leveler = level + 1;
             //this line removes the first element from the list for efficiency, e.g. if A and B do not intersect but A intersects with C, then we remove A from                   list since we already know that it intersects with C, in the next recursve iteration only B and C should be checked
-            // console.log("intersect has intersect with other item in list");
+
             let x = turf.intersect(polygonslice, polygonA).geometry;
             this.turfList.push({"polygon": x, "colour": colourValueB, "level": level});
             let clone = JSON.parse(JSON.stringify(list));
@@ -384,39 +294,29 @@ export class PolygonlistComponent implements OnInit {
     //this.appState.setColourScale(this.colourScale);
 
     this.farmData().then(data => {
-      console.log(data);
-      console.log('1');
+
       let dummyPolygons, farmCoordinates, dummyLayers, dummyFarm;
 
       this.colourScale = new ColorScale();
 
       // initialise openlayer dependant fields
       this.initialiseOpenLayers();
-      console.log('2');
 
       /*
        dummyPolygons = DummyData.getDummyPolygons();
        */
       dummyPolygons = data;
       farmCoordinates = DummyData.getDummyFarm();
-      console.log('3');
 
       dummyLayers = this.getAsLayers(dummyPolygons);
       dummyFarm = this.getAsFarm(farmCoordinates);
 
       this.loadMap(dummyLayers, dummyFarm);
-      console.log('4');
-      console.log(dummyPolygons);
-      //this.loadIntersects(dummyPolygons, 10, null);
       this.loadIntersects(dummyPolygons, 0, 0, null, 0);
 
-      console.log('10')
       this.sort();
-      console.log('5');
       this.ngAfterView();
-      console.log('9');
 
-      //return data;
     }).catch(error => {
       console.log('ERROR:' + error);
     });
